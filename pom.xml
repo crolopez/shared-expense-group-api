@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.crolopez</groupId>
-  <artifactId>shared-expense-group</artifactId>
+  <artifactId>sharedexpense</artifactId>
   <version>0.1-SNAPSHOT</version>
   <packaging>${packaging}</packaging>
 
@@ -20,7 +20,7 @@
     <micronaut.version>3.9.1</micronaut.version>
     <micronaut.runtime>netty</micronaut.runtime>
     <kotlinVersion>1.6.21</kotlinVersion>
-    <exec.mainClass>org.crolopez.ApplicationKt</exec.mainClass>
+    <exec.mainClass>org.crolopez.Application</exec.mainClass>
   </properties>
 
   <repositories>
@@ -47,15 +47,65 @@
       <scope>compile</scope>
     </dependency>
     <dependency>
+      <groupId>io.micronaut.data</groupId>
+      <artifactId>micronaut-data-processor</artifactId>
+      <version>3.9.6</version>
+    </dependency>
+    <dependency>
+      <groupId>io.micronaut.data</groupId>
+      <artifactId>micronaut-data-hibernate-jpa</artifactId>
+      <version>3.9.6</version>
+    </dependency>
+    <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <version>42.5.4</version>
+    </dependency>
+    <dependency>
+      <groupId>io.micronaut.sql</groupId>
+      <artifactId>micronaut-jdbc-hikari</artifactId>
+    </dependency>
+    <!--
+    <dependency>
+      <groupId>io.micronaut</groupId>
+      <artifactId>micronaut-core</artifactId>
+      <version>3.9.1</version>
+      <scope>runtime</scope>
+    </dependency>
+    -->
+    <dependency>
+      <groupId>io.micronaut.sql</groupId>
+      <artifactId>micronaut-hibernate-jpa</artifactId>
+      <version>4.8.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+      <version>2.1.212</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>jakarta.persistence</groupId>
+      <artifactId>jakarta.persistence-api</artifactId>
+      <version>3.1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.persistence</groupId>
+      <artifactId>javax.persistence-api</artifactId>
+      <version>2.2</version>
+    </dependency>
+    <dependency>
       <groupId>io.micronaut.kotlin</groupId>
       <artifactId>micronaut-kotlin-runtime</artifactId>
       <scope>compile</scope>
     </dependency>
+    <!--
     <dependency>
       <groupId>jakarta.annotation</groupId>
       <artifactId>jakarta.annotation-api</artifactId>
       <scope>compile</scope>
     </dependency>
+    -->
     <dependency>
       <groupId>org.jetbrains.kotlin</groupId>
       <artifactId>kotlin-reflect</artifactId>
@@ -93,6 +143,10 @@
       <artifactId>junit-jupiter-engine</artifactId>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>io.micronaut</groupId>
+      <artifactId>micronaut-inject-java</artifactId>
+    </dependency>
   </dependencies>
 
   <build>
@@ -125,32 +179,18 @@
               <sourceDirs>
                 <sourceDir>${project.basedir}/src/main/kotlin</sourceDir>
               </sourceDirs>
-              <annotationProcessorPaths combine.self="override">
-               <annotationProcessorPath>
-                 <groupId>io.micronaut</groupId>
-                 <artifactId>micronaut-inject-java</artifactId>
-                 <version>${micronaut.version}</version>
-               </annotationProcessorPath>
-               <annotationProcessorPath>
-                 <groupId>io.micronaut</groupId>
-                 <artifactId>micronaut-graal</artifactId>
-                 <version>${micronaut.version}</version>
-               </annotationProcessorPath>
-               <annotationProcessorPath>
-                 <groupId>io.micronaut</groupId>
-                 <artifactId>micronaut-http-validation</artifactId>
-                 <version>${micronaut.version}</version>
-               </annotationProcessorPath>
-               <annotationProcessorPath>
-                 <groupId>io.micronaut</groupId>
-                 <artifactId>micronaut-validation</artifactId>
-                 <version>${micronaut.version}</version>
-               </annotationProcessorPath>
+              <annotationProcessorPaths>
+                <annotationProcessorPath>
+                  <groupId>io.micronaut</groupId>
+                  <artifactId>micronaut-inject-java</artifactId>
+                  <version>${micronaut.version}</version>
+                </annotationProcessorPath>
+                <annotationProcessorPath>
+                  <groupId>io.micronaut</groupId>
+                  <artifactId>micronaut-validation</artifactId>
+                  <version>${micronaut.version}</version>
+                </annotationProcessorPath>
               </annotationProcessorPaths>
-              <annotationProcessorArgs>
-                <annotationProcessorArg>micronaut.processing.group=org.crolopez</annotationProcessorArg>
-                <annotationProcessorArg>micronaut.processing.module=sharedexpensegroup</annotationProcessorArg>
-              </annotationProcessorArgs>
             </configuration>
           </execution>
           <execution>
@@ -220,6 +260,7 @@
           <proc>none</proc>
           <source>${jdk.version}</source>
           <target>${jdk.version}</target>
+          <outputDirectory>${project.build.directory}/classes</outputDirectory>
         </configuration>
         <executions>
           <execution>
@@ -249,6 +290,7 @@
       <plugin>
         <groupId>io.fabric8</groupId>
         <artifactId>fabric8-maven-plugin</artifactId>
+        <version>4.4.2</version>
         <configuration>
           <images>
             <image>

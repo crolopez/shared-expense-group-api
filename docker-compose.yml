@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: docker
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./.demo/test_data.sql:/docker-entrypoint-initdb.d/test_data.sql
+
+  sharedexpense:
+    image: sharedexpense
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    environment:
+      DB_URL: "jdbc:postgresql://host.docker.internal:5432/postgres"
+      DB_PASSWORD: docker
+      DB_USER: postgres
