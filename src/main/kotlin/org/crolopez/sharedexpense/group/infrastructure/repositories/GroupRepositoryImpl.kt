@@ -5,6 +5,7 @@ import org.crolopez.sharedexpense.group.application.repositories.GroupRepository
 import org.crolopez.sharedexpense.group.domain.entities.GroupEntity
 import org.crolopez.sharedexpense.shared.infrastructure.mappers.Mapper
 import org.crolopez.sharedexpense.shared.infrastructure.repositories.entities.GroupDbEntity
+import org.crolopez.sharedexpense.shared.infrastructure.repositories.entities.UserDbEntity
 
 class GroupRepositoryImpl : GroupRepository {
 
@@ -15,6 +16,7 @@ class GroupRepositoryImpl : GroupRepository {
     lateinit var groupDbMapper: Mapper<GroupDbEntity, GroupEntity>
 
     override fun getGroupsFromUser(userId: String): List<GroupEntity> {
-        return groupRepository.findAll().map { x -> groupDbMapper.convert(x) }
+        val groups: List<GroupDbEntity> = groupRepository.findByUsername(userId)
+        return groups.map { x -> groupDbMapper.convert(x) }
     }
 }

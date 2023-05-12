@@ -10,7 +10,7 @@ class GroupServiceImpl: GroupService {
     @Inject
     lateinit var groupRepository: GroupRepository
 
-    override fun getGroupsFromUser(userId: String): List<GroupEntity> {
-        return groupRepository.getGroupsFromUser(userId)
+    override fun getGroupsFromUser(username: String): List<GroupEntity> {
+        return groupRepository.getGroupsFromUser(username)
     }
 }

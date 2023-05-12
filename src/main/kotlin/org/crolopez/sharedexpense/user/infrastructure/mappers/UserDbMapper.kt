@@ -10,7 +10,7 @@ class UserDbMapper: Mapper<UserDbEntity, UserEntity> {
 
     override fun convert(entity: UserDbEntity): UserEntity {
         return UserEntity(
-            userName = entity.userName,
+            userName = entity.username,
             password = entity.password,
             name = entity.name
         )

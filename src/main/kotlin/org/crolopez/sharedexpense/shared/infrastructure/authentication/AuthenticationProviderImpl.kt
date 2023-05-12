@@ -1,6 +1,5 @@
 package org.crolopez.sharedexpense.shared.infrastructure.authentication
 
-import io.micronaut.core.annotation.Nullable
 import io.micronaut.http.HttpMethod
 import io.micronaut.http.HttpRequest
 import io.micronaut.security.authentication.*
@@ -9,12 +8,9 @@ import jakarta.inject.Inject
 import jakarta.inject.Singleton
 import org.crolopez.sharedexpense.user.application.services.UserService
 import org.reactivestreams.Publisher
-import reactor.core.publisher.Flux
-import reactor.core.publisher.FluxSink
-import java.util.*
 
 @Singleton
-class BasicAuthenticationProvider : AuthenticationProvider {
+class AuthenticationProviderImpl : AuthenticationProvider {
 
     @Inject
     lateinit var userService: UserService

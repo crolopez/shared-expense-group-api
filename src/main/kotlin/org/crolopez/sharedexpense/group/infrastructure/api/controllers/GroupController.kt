@@ -5,6 +5,7 @@ import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.Produces
 import io.micronaut.security.annotation.Secured
+import io.micronaut.security.authentication.Authentication
 import io.micronaut.security.rules.SecurityRule
 import jakarta.inject.Inject
 import org.crolopez.sharedexpense.group.application.services.GroupService
@@ -18,6 +19,8 @@ import org.crolopez.sharedexpense.shared.infrastructure.mappers.Mapper
 @Controller("/v1/group")
 class GroupController {
 
+    val userKey = "sub"
+
     @Inject
     lateinit var groupService: GroupService
 
@@ -26,8 +29,9 @@ class GroupController {
 
     @Get
     @Produces(MediaType.APPLICATION_JSON)
-    fun getGroups(): ResponseDto<GroupDto> {
-        val groups = groupService.getGroupsFromUser("dummyUser")
+    fun getGroups(authentication: Authentication): ResponseDto<GroupDto> {
+        val username: String = authentication.attributes.get(userKey).toString()
+        val groups = groupService.getGroupsFromUser(username)
         return ResponseDto(
             data = groups.map { x -> groupApiMapper.convert(x) })
     }

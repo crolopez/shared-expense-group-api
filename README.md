@@ -56,3 +56,5 @@ docker-compose up
 ```
 
 After that, you can just import [this Insomnia collection](./insomnia-collection.json) to test the API.
+
+You can see an explanation of the demo scenario data [here](./.github/docs/DEMO.md).
