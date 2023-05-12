@@ -10,6 +10,17 @@ To build the application it is necessary to install the following dependencies:
 - [JDK 17](https://openjdk.org/projects/jdk/17/)
 - [Docker](https://www.docker.com/) (if you want to build it as a dockerized application)
 
+## Configuration
+
+In order to launch the application, it is necessary to configure the following environment variables:
+
+| Variable         | Description                                                                             |
+|------------------|-----------------------------------------------------------------------------------------|
+| DB_URL           | Datasource of a PostgreSQL database. Example: jdbc:postgresql://localhost:5432/postgres |
+| DB_USER          | Database username                                                                       |
+| DB_PASSWORD      | Database password                                                                       |
+| JWT_SECRET       | Secret for the authentication token generation                                          |
+
 ## Run locally
 
 To deploy the application locally just run:
@@ -25,6 +36,10 @@ If you want to build the application in a dockerized environment:
 mvn clean install
 mvn io.fabric8:fabric8-maven-plugin:build
 docker run -p 8080:8080 \
+  --env DB_URL="<DB_URL>" \
+  --env DB_USER="<DB_USER>" \
+  --env DB_PASSWORD="<DB_PASSWORD>" \
+  --env JWT_SECRET="<JWT_SECRET>" \
   sharedexpense
 ```
 
@@ -39,3 +54,5 @@ mvn clean install
 mvn io.fabric8:fabric8-maven-plugin:build
 docker-compose up
 ```
+
+After that, you can just import [this Insomnia collection](./insomnia-collection.json) to test the API.

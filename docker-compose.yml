@@ -20,3 +20,4 @@ services:
       DB_URL: "jdbc:postgresql://host.docker.internal:5432/postgres"
       DB_PASSWORD: docker
       DB_USER: postgres
+      JWT_SECRET: 'ultra-secure-maximum-super-secret-secret'

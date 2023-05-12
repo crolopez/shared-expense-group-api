@@ -3,7 +3,7 @@ name: CI/CD
 on: [push]
 
 env:
-  IMAGE_NAME: shared-expense-group
+  IMAGE_NAME: sharedexpense
   AWS_REGION: ${{ secrets.AWS_REGION }}
   ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
   ECS_SERVICE: ${{ secrets.ECS_SERVICE }}

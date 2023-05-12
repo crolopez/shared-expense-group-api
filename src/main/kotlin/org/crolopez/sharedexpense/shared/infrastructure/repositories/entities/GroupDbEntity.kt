@@ -2,7 +2,6 @@ package org.crolopez.sharedexpense.shared.infrastructure.repositories.entities
 
 import javax.persistence.*
 
-
 @Entity
 @Table(name = "EXPENSES_GROUP")
 data class GroupDbEntity (

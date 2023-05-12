@@ -1,0 +1,27 @@
+package org.crolopez.sharedexpense.user.infrastructure.repositories
+
+import jakarta.inject.Inject
+import org.crolopez.sharedexpense.shared.infrastructure.mappers.Mapper
+import org.crolopez.sharedexpense.shared.infrastructure.repositories.entities.UserDbEntity
+import org.crolopez.sharedexpense.user.application.repositories.UserRepository
+import org.crolopez.sharedexpense.user.domain.entities.UserEntity
+import java.util.*
+
+class UserRepositoryImpl : UserRepository {
+
+    @Inject
+    lateinit var userRepository: UserDatabaseRepository
+
+    @Inject
+    lateinit var userDbMapper: Mapper<UserDbEntity, UserEntity>
+
+    override fun getUser(userName: String): Optional<UserEntity> {
+        var user = userRepository.findById(userName)
+        return if (user.isPresent) {
+            Optional.ofNullable(userDbMapper.convert(user.get()))
+        } else {
+            Optional.empty()
+        }
+    }
+
+}

@@ -4,7 +4,6 @@ import jakarta.inject.Singleton
 import org.crolopez.sharedexpense.group.domain.entities.GroupEntity
 import org.crolopez.sharedexpense.shared.infrastructure.api.dtos.DataDto
 import org.crolopez.sharedexpense.group.infrastructure.api.dtos.GroupDto
-import org.crolopez.sharedexpense.shared.infrastructure.api.dtos.ResponseDto
 import org.crolopez.sharedexpense.shared.infrastructure.mappers.Mapper
 
 @Singleton
