@@ -14,4 +14,8 @@ class UserServiceImpl: UserService {
     override fun getUser(userName: String): Optional<UserEntity> {
         return userRepository.getUser(userName)
     }
+
+    override fun getUsersFromGroup(groupId: Long): List<UserEntity> {
+        return userRepository.getUsersFromGroup(groupId)
+    }
 }

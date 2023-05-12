@@ -5,4 +5,5 @@ import java.util.*
 
 interface UserService {
     fun getUser(userName: String): Optional<UserEntity>
+    fun getUsersFromGroup(groupId: Long): List<UserEntity>
 }

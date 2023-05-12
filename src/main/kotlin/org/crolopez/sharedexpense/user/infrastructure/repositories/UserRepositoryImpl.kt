@@ -2,6 +2,7 @@ package org.crolopez.sharedexpense.user.infrastructure.repositories
 
 import jakarta.inject.Inject
 import org.crolopez.sharedexpense.shared.infrastructure.mappers.Mapper
+import org.crolopez.sharedexpense.shared.infrastructure.repositories.entities.GroupDbEntity
 import org.crolopez.sharedexpense.shared.infrastructure.repositories.entities.UserDbEntity
 import org.crolopez.sharedexpense.user.application.repositories.UserRepository
 import org.crolopez.sharedexpense.user.domain.entities.UserEntity
@@ -22,6 +23,11 @@ class UserRepositoryImpl : UserRepository {
         } else {
             Optional.empty()
         }
+    }
+
+    override fun getUsersFromGroup(groupId: Long): List<UserEntity> {
+        val users: List<UserDbEntity> = userRepository.findByGroupId(groupId)
+        return users.map { x -> userDbMapper.convert(x) }
     }
 
 }

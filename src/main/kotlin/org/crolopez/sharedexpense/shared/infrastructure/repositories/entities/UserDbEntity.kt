@@ -1,5 +1,6 @@
 package org.crolopez.sharedexpense.shared.infrastructure.repositories.entities
 
+import io.micronaut.data.annotation.Join
 import javax.persistence.*
 
 @Entity
@@ -15,6 +16,12 @@ class UserDbEntity {
     @Column(name = "name", nullable = false)
     val name: String = ""
 
-    @ManyToMany(mappedBy = "users")
+    @ManyToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+    @JoinTable(
+        name = "group_user",
+        joinColumns = [JoinColumn(name = "username")],
+        inverseJoinColumns = [JoinColumn(name = "group_id")]
+    )
+    @Join("group_id")
     val groups: List<GroupDbEntity> = listOf()
 }
