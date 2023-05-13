@@ -1,5 +1,6 @@
 package org.crolopez.sharedexpense.group.infrastructure.repositories.entities
 
+import io.micronaut.data.jdbc.annotation.ColumnTransformer
 import org.crolopez.sharedexpense.user.infrastructure.repositories.entities.UserDbEntity
 import java.time.Clock
 import java.time.Instant
@@ -21,7 +22,7 @@ data class ExpenseDbEntity(
     val currency: String = "",
 
     @Column(name = "date_created")
-    var dateCreated: Instant? = null,
+    var dateCreated: Long = 0,
 
     @Column(name = "description", nullable = false)
     val description: String = "",
@@ -36,6 +37,6 @@ data class ExpenseDbEntity(
 ) {
     @PrePersist
     fun setDateNow() {
-        dateCreated = Instant.now(Clock.systemUTC()).truncatedTo(ChronoUnit.SECONDS)
+        dateCreated = Instant.now(Clock.systemUTC()).truncatedTo(ChronoUnit.SECONDS).epochSecond
     }
 }

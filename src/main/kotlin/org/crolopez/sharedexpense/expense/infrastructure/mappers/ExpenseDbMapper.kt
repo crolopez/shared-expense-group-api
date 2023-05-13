@@ -16,7 +16,7 @@ class ExpenseDbMapper: Mapper<ExpenseDbEntity, ExpenseEntity> {
             id = entity.id,
             amount = entity.amount,
             currency = entity.currency,
-            dateCreated = entity.dateCreated!!,
+            dateCreated = Instant.ofEpochSecond(entity.dateCreated),
             description = entity.description,
             username = entity.user!!.username,
             user = entity.user.name

@@ -72,12 +72,22 @@ class GroupController {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     fun addExpenseToGroup(groupId: Long, @Body expenseDto: ExpenseDto, authentication: Authentication): ResponseDto<ExpenseDto> {
+        // TODO: ADD VALIDATION FOR USER GROUP ~~~~
         val username: String = authentication.attributes.get(userKey).toString()
         val expenseEntity = expenseApiInputMapper.convert(expenseDto)
 
         groupService.addExpenseToGroup(groupId, username, expenseEntity)
         val expenses = groupService.getExpensesFromGroup(groupId)
 
+        return ResponseDto(
+            data = expenses.map { x -> expenseApiOutputMapper.convert(x) })
+    }
+
+    @Get("/{groupId}/expense")
+    @Produces(MediaType.APPLICATION_JSON)
+    fun getGroupExpenses(groupId: Long, authentication: Authentication): ResponseDto<ExpenseDto> {
+        // TODO: ADD VALIDATION FOR USER GROUP ~~~~
+        val expenses = groupService.getExpensesFromGroup(groupId)
         return ResponseDto(
             data = expenses.map { x -> expenseApiOutputMapper.convert(x) })
     }
