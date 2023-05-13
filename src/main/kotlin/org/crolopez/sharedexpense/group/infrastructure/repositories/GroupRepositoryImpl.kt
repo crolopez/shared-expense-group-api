@@ -4,9 +4,9 @@ import jakarta.inject.Inject
 import org.crolopez.sharedexpense.group.application.repositories.GroupRepository
 import org.crolopez.sharedexpense.group.domain.entities.GroupEntity
 import org.crolopez.sharedexpense.shared.infrastructure.mappers.Mapper
-import org.crolopez.sharedexpense.shared.infrastructure.repositories.entities.GroupDbEntity
-import org.crolopez.sharedexpense.shared.infrastructure.repositories.entities.GroupUserRelationDbEntity
-import org.crolopez.sharedexpense.shared.infrastructure.repositories.entities.GroupUserRelationId
+import org.crolopez.sharedexpense.group.infrastructure.repositories.entities.GroupDbEntity
+import org.crolopez.sharedexpense.shared.infrastructure.repositories.relations.GroupUserRelationDbEntity
+import org.crolopez.sharedexpense.shared.infrastructure.repositories.relations.GroupUserRelationId
 import org.crolopez.sharedexpense.shared.infrastructure.repositories.relations.GroupUserRelationDatabaseRepository
 import javax.transaction.Transactional
 

@@ -1,6 +1,5 @@
-package org.crolopez.sharedexpense.shared.infrastructure.repositories.entities
+package org.crolopez.sharedexpense.shared.infrastructure.repositories.relations
 
-import io.micronaut.data.annotation.Join
 import java.io.Serializable
 import javax.persistence.*
 

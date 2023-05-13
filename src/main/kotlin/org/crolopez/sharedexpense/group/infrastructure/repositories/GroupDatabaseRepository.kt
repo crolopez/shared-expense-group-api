@@ -3,7 +3,7 @@ package org.crolopez.sharedexpense.group.infrastructure.repositories
 import io.micronaut.data.annotation.Query
 import io.micronaut.data.annotation.Repository;
 import io.micronaut.data.repository.CrudRepository;
-import org.crolopez.sharedexpense.shared.infrastructure.repositories.entities.GroupDbEntity
+import org.crolopez.sharedexpense.group.infrastructure.repositories.entities.GroupDbEntity
 import org.springframework.data.repository.query.Param
 import java.util.*
 

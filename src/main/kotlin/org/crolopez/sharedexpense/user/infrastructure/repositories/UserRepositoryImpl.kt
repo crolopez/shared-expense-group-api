@@ -2,8 +2,8 @@ package org.crolopez.sharedexpense.user.infrastructure.repositories
 
 import jakarta.inject.Inject
 import org.crolopez.sharedexpense.shared.infrastructure.mappers.Mapper
-import org.crolopez.sharedexpense.shared.infrastructure.repositories.entities.GroupDbEntity
-import org.crolopez.sharedexpense.shared.infrastructure.repositories.entities.UserDbEntity
+import org.crolopez.sharedexpense.group.infrastructure.repositories.entities.GroupDbEntity
+import org.crolopez.sharedexpense.user.infrastructure.repositories.entities.UserDbEntity
 import org.crolopez.sharedexpense.user.application.repositories.UserRepository
 import org.crolopez.sharedexpense.user.domain.entities.UserEntity
 import java.util.*

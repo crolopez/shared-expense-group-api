@@ -1,6 +1,7 @@
-package org.crolopez.sharedexpense.shared.infrastructure.repositories.entities
+package org.crolopez.sharedexpense.user.infrastructure.repositories.entities
 
 import io.micronaut.data.annotation.Join
+import org.crolopez.sharedexpense.group.infrastructure.repositories.entities.GroupDbEntity
 import javax.persistence.*
 
 @Entity
