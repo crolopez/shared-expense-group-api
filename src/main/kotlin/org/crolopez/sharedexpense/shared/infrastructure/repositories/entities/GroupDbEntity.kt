@@ -21,5 +21,5 @@ data class GroupDbEntity (
         inverseJoinColumns = [JoinColumn(name = "username")]
     )
     @Join("username")
-    val users: List<UserDbEntity> = listOf()
+    val users: MutableSet<UserDbEntity> = HashSet()
 )

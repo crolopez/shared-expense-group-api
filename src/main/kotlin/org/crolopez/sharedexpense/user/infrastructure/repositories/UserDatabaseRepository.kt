@@ -11,4 +11,5 @@ import org.springframework.data.repository.query.Param
 interface UserDatabaseRepository: CrudRepository<UserDbEntity, String>{
     @Query("SELECT g FROM UserDbEntity g JOIN g.groups u WHERE u.groupId = :groupId")
     fun findByGroupId(@Param("groupId") groupId: Long): List<UserDbEntity>
+    fun findByUsername(username: String): UserDbEntity?
 }

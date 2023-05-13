@@ -1,8 +1,10 @@
 package org.crolopez.sharedexpense.group.infrastructure.api.controllers
 
 import io.micronaut.http.MediaType
+import io.micronaut.http.annotation.Consumes
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
+import io.micronaut.http.annotation.Post
 import io.micronaut.http.annotation.Produces
 import io.micronaut.security.annotation.Secured
 import io.micronaut.security.authentication.Authentication
@@ -50,4 +52,16 @@ class GroupController {
         return ResponseDto(
             data = users.map { x -> userApiMapper.convert(x) })
     }
+
+    @Post("/{groupId}/user/{username}")
+    @Produces(MediaType.APPLICATION_JSON)
+    fun addUserToGroup(groupId: Long, username: String, authentication: Authentication): ResponseDto<UserDto> {
+        //val username: String = authentication.attributes.get(userKey).toString()
+        // TODO: ADD VALIDATION FOR USER GROUP ~~~~
+        groupService.addUserToGroup(groupId, username)
+        val users = groupService.getUsersFromGroup(groupId)
+        return ResponseDto(
+            data = users.map { x -> userApiMapper.convert(x) })
+    }
+
 }

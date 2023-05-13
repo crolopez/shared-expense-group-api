@@ -22,4 +22,8 @@ class GroupServiceImpl: GroupService {
     override fun getUsersFromGroup(groupId: Long): List<UserEntity> {
         return userService.getUsersFromGroup(groupId)
     }
+
+    override fun addUserToGroup(groupId: Long, username: String) {
+        groupRepository.addUserToGroup(groupId, username)
+    }
 }
