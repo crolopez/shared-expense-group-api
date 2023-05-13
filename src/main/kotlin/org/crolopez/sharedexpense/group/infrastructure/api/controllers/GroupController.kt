@@ -1,21 +1,19 @@
 package org.crolopez.sharedexpense.group.infrastructure.api.controllers
 
 import io.micronaut.http.MediaType
-import io.micronaut.http.annotation.Consumes
-import io.micronaut.http.annotation.Controller
-import io.micronaut.http.annotation.Get
-import io.micronaut.http.annotation.Post
-import io.micronaut.http.annotation.Produces
+import io.micronaut.http.annotation.*
 import io.micronaut.security.annotation.Secured
 import io.micronaut.security.authentication.Authentication
 import io.micronaut.security.rules.SecurityRule
 import jakarta.inject.Inject
+import org.crolopez.sharedexpense.expense.infrastructure.api.dtos.ExpenseDto
 import org.crolopez.sharedexpense.group.application.services.GroupService
 import org.crolopez.sharedexpense.group.domain.entities.GroupEntity
 import org.crolopez.sharedexpense.group.infrastructure.api.dtos.GroupDto
 import org.crolopez.sharedexpense.shared.infrastructure.api.dtos.DataDto
 import org.crolopez.sharedexpense.shared.infrastructure.api.dtos.ResponseDto
 import org.crolopez.sharedexpense.shared.infrastructure.mappers.Mapper
+import org.crolopez.sharedexpense.expense.domain.entities.ExpenseEntity
 import org.crolopez.sharedexpense.user.domain.entities.UserEntity
 import org.crolopez.sharedexpense.user.infrastructure.api.dtos.UserDto
 
@@ -29,10 +27,16 @@ class GroupController {
     lateinit var groupService: GroupService
 
     @Inject
-    lateinit var groupApiMapper: Mapper<GroupEntity, DataDto<GroupDto>>
+    lateinit var groupApiOutputMapper: Mapper<GroupEntity, DataDto<GroupDto>>
 
     @Inject
-    lateinit var userApiMapper: Mapper<UserEntity, DataDto<UserDto>>
+    lateinit var userApiOutputMapper: Mapper<UserEntity, DataDto<UserDto>>
+
+    @Inject
+    lateinit var expenseApiOutputMapper: Mapper<ExpenseEntity, DataDto<ExpenseDto>>
+
+    @Inject
+    lateinit var expenseApiInputMapper: Mapper<ExpenseDto, ExpenseEntity>
 
     @Get
     @Produces(MediaType.APPLICATION_JSON)
@@ -40,7 +44,7 @@ class GroupController {
         val username: String = authentication.attributes.get(userKey).toString()
         val groups = groupService.getGroupsFromUser(username)
         return ResponseDto(
-            data = groups.map { x -> groupApiMapper.convert(x) })
+            data = groups.map { x -> groupApiOutputMapper.convert(x) })
     }
 
     @Get("/{groupId}")
@@ -50,7 +54,7 @@ class GroupController {
         // TODO: ADD VALIDATION FOR USER GROUP ~~~~
         val users = groupService.getUsersFromGroup(groupId)
         return ResponseDto(
-            data = users.map { x -> userApiMapper.convert(x) })
+            data = users.map { x -> userApiOutputMapper.convert(x) })
     }
 
     @Post("/{groupId}/user/{username}")
@@ -61,7 +65,21 @@ class GroupController {
         groupService.addUserToGroup(groupId, username)
         val users = groupService.getUsersFromGroup(groupId)
         return ResponseDto(
-            data = users.map { x -> userApiMapper.convert(x) })
+            data = users.map { x -> userApiOutputMapper.convert(x) })
+    }
+
+    @Post("/{groupId}/expense")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    fun addExpenseToGroup(groupId: Long, @Body expenseDto: ExpenseDto, authentication: Authentication): ResponseDto<ExpenseDto> {
+        val username: String = authentication.attributes.get(userKey).toString()
+        val expenseEntity = expenseApiInputMapper.convert(expenseDto)
+
+        groupService.addExpenseToGroup(groupId, username, expenseEntity)
+        val expenses = groupService.getExpensesFromGroup(groupId)
+
+        return ResponseDto(
+            data = expenses.map { x -> expenseApiOutputMapper.convert(x) })
     }
 
 }

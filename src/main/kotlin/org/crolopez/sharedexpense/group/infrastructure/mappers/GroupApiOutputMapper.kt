@@ -7,7 +7,7 @@ import org.crolopez.sharedexpense.group.infrastructure.api.dtos.GroupDto
 import org.crolopez.sharedexpense.shared.infrastructure.mappers.Mapper
 
 @Singleton
-class GroupApiMapper: Mapper<GroupEntity, DataDto<GroupDto>> {
+class GroupApiOutputMapper: Mapper<GroupEntity, DataDto<GroupDto>> {
 
     private val dataType: String = "group"
 

@@ -5,7 +5,7 @@ import org.crolopez.sharedexpense.user.infrastructure.repositories.entities.User
 import javax.persistence.*
 
 @Entity
-@Table(name = "EXPENSES_GROUP")
+@Table(name = "GROUPS")
 data class GroupDbEntity (
     @Id
     @Column(name = "group_id", nullable = false)
@@ -22,5 +22,8 @@ data class GroupDbEntity (
         inverseJoinColumns = [JoinColumn(name = "username")]
     )
     @Join("username")
-    val users: MutableSet<UserDbEntity> = HashSet()
+    val users: MutableSet<UserDbEntity> = HashSet(),
+
+    @OneToMany(mappedBy = "group", cascade = [CascadeType.ALL], orphanRemoval = true)
+    val expenses: MutableSet<ExpenseDbEntity> = HashSet(),
 )

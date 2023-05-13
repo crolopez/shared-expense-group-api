@@ -1,6 +1,7 @@
 package org.crolopez.sharedexpense.group.infrastructure.repositories
 
 import jakarta.inject.Inject
+import jakarta.inject.Singleton
 import org.crolopez.sharedexpense.group.application.repositories.GroupRepository
 import org.crolopez.sharedexpense.group.domain.entities.GroupEntity
 import org.crolopez.sharedexpense.shared.infrastructure.mappers.Mapper

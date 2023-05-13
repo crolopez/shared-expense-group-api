@@ -1,21 +1,22 @@
 package org.crolopez.sharedexpense.user.infrastructure.repositories.entities
 
 import io.micronaut.data.annotation.Join
+import org.crolopez.sharedexpense.group.infrastructure.repositories.entities.ExpenseDbEntity
 import org.crolopez.sharedexpense.group.infrastructure.repositories.entities.GroupDbEntity
 import javax.persistence.*
 
 @Entity
 @Table(name = "USER_DATA")
-class UserDbEntity {
+data class UserDbEntity (
     @Id
     @Column(name = "username", nullable = false)
-    val username: String = ""
+    val username: String = "",
 
     @Column(name = "password", nullable = false)
-    val password: String = ""
+    val password: String = "",
 
     @Column(name = "name", nullable = false)
-    val name: String = ""
+    val name: String = "",
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
     @JoinTable(
@@ -24,5 +25,8 @@ class UserDbEntity {
         inverseJoinColumns = [JoinColumn(name = "group_id")]
     )
     @Join("group_id")
-    val groups: List<GroupDbEntity> = listOf()
-}
+    val groups: List<GroupDbEntity> = listOf(),
+
+    @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL], orphanRemoval = true)
+    val expenses: MutableSet<ExpenseDbEntity> = HashSet()
+)
