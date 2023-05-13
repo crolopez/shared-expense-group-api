@@ -6,6 +6,8 @@ import io.micronaut.security.annotation.Secured
 import io.micronaut.security.authentication.Authentication
 import io.micronaut.security.rules.SecurityRule
 import jakarta.inject.Inject
+import org.crolopez.sharedexpense.debt.domain.entities.DebtEntity
+import org.crolopez.sharedexpense.debt.infrastructure.api.dtos.DebtDto
 import org.crolopez.sharedexpense.expense.infrastructure.api.dtos.ExpenseDto
 import org.crolopez.sharedexpense.group.application.services.GroupService
 import org.crolopez.sharedexpense.group.domain.entities.GroupEntity
@@ -34,6 +36,9 @@ class GroupController {
 
     @Inject
     lateinit var expenseApiOutputMapper: Mapper<ExpenseEntity, DataDto<ExpenseDto>>
+
+    @Inject
+    lateinit var debtsApiOutputMapper: Mapper<DebtEntity, DataDto<DebtDto>>
 
     @Inject
     lateinit var expenseApiInputMapper: Mapper<ExpenseDto, ExpenseEntity>
@@ -90,6 +95,15 @@ class GroupController {
         val expenses = groupService.getExpensesFromGroup(groupId)
         return ResponseDto(
             data = expenses.map { x -> expenseApiOutputMapper.convert(x) })
+    }
+
+    @Get("/{groupId}/debts")
+    @Produces(MediaType.APPLICATION_JSON)
+    fun getGroupDebts(groupId: Long, authentication: Authentication): ResponseDto<DebtDto> {
+        // TODO: ADD VALIDATION FOR USER GROUP ~~~~
+        val debts = groupService.getDebtsFromGroup(groupId)
+        return ResponseDto(
+            data = debts.map { x -> debtsApiOutputMapper.convert(x) })
     }
 
 }

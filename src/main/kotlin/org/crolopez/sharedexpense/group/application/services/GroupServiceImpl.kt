@@ -2,6 +2,8 @@ package org.crolopez.sharedexpense.group.application.services
 
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
+import org.crolopez.sharedexpense.debt.application.services.DebtService
+import org.crolopez.sharedexpense.debt.domain.entities.DebtEntity
 import org.crolopez.sharedexpense.expense.application.services.ExpenseService
 import org.crolopez.sharedexpense.expense.domain.entities.ExpenseEntity
 import org.crolopez.sharedexpense.group.application.repositories.GroupRepository
@@ -19,6 +21,9 @@ class GroupServiceImpl: GroupService {
 
     @Inject
     lateinit var expenseService: ExpenseService
+
+    @Inject
+    lateinit var debtService: DebtService
 
     override fun getGroupsFromUser(username: String): List<GroupEntity> {
         return groupRepository.getGroupsFromUser(username)
@@ -38,5 +43,11 @@ class GroupServiceImpl: GroupService {
 
     override fun getExpensesFromGroup(groupId: Long): List<ExpenseEntity> {
         return expenseService.getExpensesFromGroup(groupId)
+    }
+
+    override fun getDebtsFromGroup(groupId: Long): List<DebtEntity> {
+        val users = getUsersFromGroup(groupId)
+        val expenses = getExpensesFromGroup(groupId)
+        return debtService.getDebtsFromUsers(expenses, users)
     }
 }

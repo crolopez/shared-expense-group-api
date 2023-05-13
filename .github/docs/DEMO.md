@@ -49,7 +49,7 @@ Total: 189.70€
 | Normal meal | 90.70€    | Goku      |
 | Vegan meal  | 15.12€    | Manuel    |
 
-Total: 295.52€
+Total: 325.02€
 
 ### Surprise birthday party
 

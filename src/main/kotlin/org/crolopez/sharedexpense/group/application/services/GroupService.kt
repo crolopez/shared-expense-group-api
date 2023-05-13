@@ -1,5 +1,6 @@
 package org.crolopez.sharedexpense.group.application.services
 
+import org.crolopez.sharedexpense.debt.domain.entities.DebtEntity
 import org.crolopez.sharedexpense.expense.domain.entities.ExpenseEntity
 import org.crolopez.sharedexpense.group.domain.entities.GroupEntity
 import org.crolopez.sharedexpense.user.domain.entities.UserEntity
@@ -10,4 +11,5 @@ interface GroupService {
     fun addUserToGroup(groupId: Long, username: String)
     fun addExpenseToGroup(groupId: Long, username: String, expenseEntity: ExpenseEntity)
     fun getExpensesFromGroup(groupId: Long): List<ExpenseEntity>
+    fun getDebtsFromGroup(groupId: Long): List<DebtEntity>
 }
