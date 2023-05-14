@@ -13,6 +13,8 @@ data class ExpenseDto(
     @field:NotNull
     val description: String,
 
+    val user: String,
+
     val dateCreated: String? = null,
 
     val currency: String? = null

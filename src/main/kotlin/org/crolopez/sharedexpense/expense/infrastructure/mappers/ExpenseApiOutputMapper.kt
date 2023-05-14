@@ -23,7 +23,8 @@ class ExpenseApiOutputMapper: Mapper<ExpenseEntity, DataDto<ExpenseDto>> {
                 amount = entity.amount,
                 description = entity.description,
                 dateCreated = entity.dateCreated.toString(),
-                currency = entity.currency
+                currency = entity.currency,
+                user = entity.user
             )
         )
     }

@@ -52,7 +52,7 @@ class GroupController {
             data = groups.map { x -> groupApiOutputMapper.convert(x) })
     }
 
-    @Get("/{groupId}")
+    @Get("/{groupId}/user")
     @Produces(MediaType.APPLICATION_JSON)
     fun getGroupUsers(groupId: Long, authentication: Authentication): ResponseDto<UserDto> {
         //val username: String = authentication.attributes.get(userKey).toString()
@@ -97,7 +97,7 @@ class GroupController {
             data = expenses.map { x -> expenseApiOutputMapper.convert(x) })
     }
 
-    @Get("/{groupId}/debts")
+    @Get("/{groupId}/debt")
     @Produces(MediaType.APPLICATION_JSON)
     fun getGroupDebts(groupId: Long, authentication: Authentication): ResponseDto<DebtDto> {
         // TODO: ADD VALIDATION FOR USER GROUP ~~~~
