@@ -18,4 +18,12 @@ class UserServiceImpl: UserService {
     override fun getUsersFromGroup(groupId: Long): List<UserEntity> {
         return userRepository.getUsersFromGroup(groupId)
     }
+
+    override fun userExists(username: String): Boolean {
+        return userRepository.userExists(username)
+    }
+
+    override fun userExistsInGroup(username: String, groupId: Long): Boolean {
+        return userRepository.userExistsInGroup(username, groupId)
+    }
 }

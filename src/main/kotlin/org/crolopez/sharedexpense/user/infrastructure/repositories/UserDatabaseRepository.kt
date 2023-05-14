@@ -8,8 +8,12 @@ import org.crolopez.sharedexpense.user.infrastructure.repositories.entities.User
 import org.springframework.data.repository.query.Param
 
 @Repository
-interface UserDatabaseRepository: CrudRepository<UserDbEntity, String>{
+interface UserDatabaseRepository: CrudRepository<UserDbEntity, String> {
     @Query("SELECT g FROM UserDbEntity g JOIN g.groups u WHERE u.groupId = :groupId")
     fun findByGroupId(@Param("groupId") groupId: Long): List<UserDbEntity>
-    fun findByUsername(username: String): UserDbEntity?
+
+    fun existsByUsername(username: String): Boolean
+
+    @Query("SELECT COUNT(*) > 0 FROM UserDbEntity u JOIN u.groups g WHERE u.username = :username AND g.id = :groupId")
+    fun isUserInGroup(@Param("username") username: String, @Param("groupId") groupId: Long): Boolean
 }

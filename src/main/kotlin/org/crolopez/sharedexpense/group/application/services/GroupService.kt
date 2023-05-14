@@ -14,4 +14,5 @@ interface GroupService {
     fun getExpensesFromGroup(groupId: Long): List<ExpenseEntity>
     fun getBalanceFromGroup(groupId: Long): List<BalanceEntity>
     fun getDebtsFromGroup(groupId: Long): List<DebtEntity>
+    fun userIsInGroup(groupId: Long, username: String): Any
 }

@@ -31,4 +31,12 @@ class UserRepositoryImpl : UserRepository {
         return users.map { x -> userDbMapper.convert(x) }
     }
 
+    override fun userExists(username: String): Boolean {
+        return userRepository.existsByUsername(username)
+    }
+
+    override fun userExistsInGroup(username: String, groupId: Long): Boolean {
+        return userRepository.isUserInGroup(username, groupId)
+    }
+
 }

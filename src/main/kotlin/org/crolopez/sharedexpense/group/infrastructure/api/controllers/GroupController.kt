@@ -18,6 +18,7 @@ import org.crolopez.sharedexpense.shared.infrastructure.api.dtos.DataDto
 import org.crolopez.sharedexpense.shared.infrastructure.api.dtos.ResponseDto
 import org.crolopez.sharedexpense.shared.infrastructure.mappers.Mapper
 import org.crolopez.sharedexpense.expense.domain.entities.ExpenseEntity
+import org.crolopez.sharedexpense.shared.application.exception.UserNotInGroupException
 import org.crolopez.sharedexpense.user.domain.entities.UserEntity
 import org.crolopez.sharedexpense.user.infrastructure.api.dtos.UserDto
 
@@ -51,7 +52,7 @@ class GroupController {
     @Get
     @Produces(MediaType.APPLICATION_JSON)
     fun getGroups(authentication: Authentication): ResponseDto<GroupDto> {
-        val username: String = authentication.attributes.get(userKey).toString()
+        val username: String = getUsername(authentication)
         val groups = groupService.getGroupsFromUser(username)
         return ResponseDto(
             data = groups.map { x -> groupApiOutputMapper.convert(x) })
@@ -60,8 +61,7 @@ class GroupController {
     @Get("/{groupId}/user")
     @Produces(MediaType.APPLICATION_JSON)
     fun getGroupUsers(groupId: Long, authentication: Authentication): ResponseDto<UserDto> {
-        //val username: String = authentication.attributes.get(userKey).toString()
-        // TODO: ADD VALIDATION FOR USER GROUP ~~~~
+        verifyValidGroup(groupId, authentication)
         val users = groupService.getUsersFromGroup(groupId)
         return ResponseDto(
             data = users.map { x -> userApiOutputMapper.convert(x) })
@@ -70,8 +70,7 @@ class GroupController {
     @Post("/{groupId}/user/{username}")
     @Produces(MediaType.APPLICATION_JSON)
     fun addUserToGroup(groupId: Long, username: String, authentication: Authentication): ResponseDto<UserDto> {
-        //val username: String = authentication.attributes.get(userKey).toString()
-        // TODO: ADD VALIDATION FOR USER GROUP ~~~~
+        verifyValidGroup(groupId, authentication)
         groupService.addUserToGroup(groupId, username)
         val users = groupService.getUsersFromGroup(groupId)
         return ResponseDto(
@@ -82,7 +81,7 @@ class GroupController {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     fun addExpenseToGroup(groupId: Long, @Body expenseDto: ExpenseDto, authentication: Authentication): ResponseDto<ExpenseDto> {
-        // TODO: ADD VALIDATION FOR USER GROUP ~~~~
+        verifyValidGroup(groupId, authentication)
         val username: String = authentication.attributes.get(userKey).toString()
         val expenseEntity = expenseApiInputMapper.convert(expenseDto)
 
@@ -96,7 +95,7 @@ class GroupController {
     @Get("/{groupId}/expense")
     @Produces(MediaType.APPLICATION_JSON)
     fun getGroupExpenses(groupId: Long, authentication: Authentication): ResponseDto<ExpenseDto> {
-        // TODO: ADD VALIDATION FOR USER GROUP ~~~~
+        verifyValidGroup(groupId, authentication)
         val expenses = groupService.getExpensesFromGroup(groupId)
         return ResponseDto(
             data = expenses.map { x -> expenseApiOutputMapper.convert(x) })
@@ -105,7 +104,7 @@ class GroupController {
     @Get("/{groupId}/balance")
     @Produces(MediaType.APPLICATION_JSON)
     fun getGroupBalance(groupId: Long, authentication: Authentication): ResponseDto<BalanceDto> {
-        // TODO: ADD VALIDATION FOR USER GROUP ~~~~
+        verifyValidGroup(groupId, authentication)
         val balance = groupService.getBalanceFromGroup(groupId)
         return ResponseDto(
             data = balance.map { x -> balanceApiOutputMapper.convert(x) })
@@ -114,10 +113,21 @@ class GroupController {
     @Get("/{groupId}/debt")
     @Produces(MediaType.APPLICATION_JSON)
     fun getGroupDebts(groupId: Long, authentication: Authentication): ResponseDto<DebtDto> {
-        // TODO: ADD VALIDATION FOR USER GROUP ~~~~
+        verifyValidGroup(groupId, authentication)
         val debts = groupService.getDebtsFromGroup(groupId)
         return ResponseDto(
             data = debts.map { x -> debtApiOutputMapper.convert(x) })
+    }
+
+    private fun verifyValidGroup(groupId: Long, authentication: Authentication) {
+        val username = getUsername(authentication)
+        if (groupService.userIsInGroup(groupId, username) == false) {
+            throw UserNotInGroupException(groupId, username)
+        }
+    }
+
+    private fun getUsername(authentication: Authentication): String {
+        return authentication.attributes.get(userKey).toString()
     }
 
 }

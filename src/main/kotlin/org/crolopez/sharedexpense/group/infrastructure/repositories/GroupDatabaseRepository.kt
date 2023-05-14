@@ -11,6 +11,4 @@ import java.util.*
 interface GroupDatabaseRepository: CrudRepository<GroupDbEntity, Long>{
     @Query("SELECT g FROM GroupDbEntity g JOIN g.users u WHERE u.username = :username")
     fun findByUsername(@Param("username") username: String): List<GroupDbEntity>
-
-    fun findByGroupId(groupId: Long): GroupDbEntity?
 }

@@ -10,6 +10,8 @@ import org.crolopez.sharedexpense.expense.application.services.ExpenseService
 import org.crolopez.sharedexpense.expense.domain.entities.ExpenseEntity
 import org.crolopez.sharedexpense.group.application.repositories.GroupRepository
 import org.crolopez.sharedexpense.group.domain.entities.GroupEntity
+import org.crolopez.sharedexpense.shared.application.exception.UserCannotBeAddedException
+import org.crolopez.sharedexpense.shared.application.exception.UserDoesNotExistException
 import org.crolopez.sharedexpense.user.application.services.UserService
 import org.crolopez.sharedexpense.user.domain.entities.UserEntity
 
@@ -39,6 +41,8 @@ class GroupServiceImpl: GroupService {
     }
 
     override fun addUserToGroup(groupId: Long, username: String) {
+        verifyUserExits(username)
+        verifyUserCanBeAdded(groupId, username)
         groupRepository.addUserToGroup(groupId, username)
     }
 
@@ -59,5 +63,21 @@ class GroupServiceImpl: GroupService {
     override fun getDebtsFromGroup(groupId: Long): List<DebtEntity> {
         val balances = getBalanceFromGroup(groupId)
         return debtService.getDebtsFromBalances(balances)
+    }
+
+    override fun userIsInGroup(groupId: Long, username: String): Any {
+        return getGroupsFromUser(username).filter { x -> x.groupId == groupId }.isNotEmpty()
+    }
+
+    private fun verifyUserExits(username: String) {
+        if (!userService.userExists(username)) {
+            throw UserDoesNotExistException(username)
+        }
+    }
+
+    private fun verifyUserCanBeAdded(groupId: Long, username: String) {
+        if (userService.userExistsInGroup(username, groupId)) {
+            throw UserCannotBeAddedException(groupId, username)
+        }
     }
 }
