@@ -9,10 +9,11 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "EXPENSES")
+@SequenceGenerator(name = "expense_sequence_gen", sequenceName = "expense_sequence_gen_", initialValue = 100, allocationSize = 1)
 data class ExpenseDbEntity(
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "expense_sequence_gen")
     val id: Long = 0,
 
     @Column(name = "amount", nullable = false)
