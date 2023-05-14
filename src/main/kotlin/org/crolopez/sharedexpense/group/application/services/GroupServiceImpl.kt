@@ -2,8 +2,8 @@ package org.crolopez.sharedexpense.group.application.services
 
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
-import org.crolopez.sharedexpense.debt.application.services.DebtService
-import org.crolopez.sharedexpense.debt.domain.entities.DebtEntity
+import org.crolopez.sharedexpense.balance.application.services.BalanceService
+import org.crolopez.sharedexpense.balance.domain.entities.BalanceEntity
 import org.crolopez.sharedexpense.expense.application.services.ExpenseService
 import org.crolopez.sharedexpense.expense.domain.entities.ExpenseEntity
 import org.crolopez.sharedexpense.group.application.repositories.GroupRepository
@@ -23,7 +23,7 @@ class GroupServiceImpl: GroupService {
     lateinit var expenseService: ExpenseService
 
     @Inject
-    lateinit var debtService: DebtService
+    lateinit var balanceService: BalanceService
 
     override fun getGroupsFromUser(username: String): List<GroupEntity> {
         return groupRepository.getGroupsFromUser(username)
@@ -45,9 +45,9 @@ class GroupServiceImpl: GroupService {
         return expenseService.getExpensesFromGroup(groupId)
     }
 
-    override fun getDebtsFromGroup(groupId: Long): List<DebtEntity> {
+    override fun getGroupBalance(groupId: Long): List<BalanceEntity> {
         val users = getUsersFromGroup(groupId)
         val expenses = getExpensesFromGroup(groupId)
-        return debtService.getDebtsFromUsers(expenses, users)
+        return balanceService.getBalanceFromUsers(expenses, users)
     }
 }
