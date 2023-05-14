@@ -8,6 +8,8 @@ import io.micronaut.security.rules.SecurityRule
 import jakarta.inject.Inject
 import org.crolopez.sharedexpense.balance.domain.entities.BalanceEntity
 import org.crolopez.sharedexpense.balance.infrastructure.api.dtos.BalanceDto
+import org.crolopez.sharedexpense.debt.domain.entities.DebtEntity
+import org.crolopez.sharedexpense.debt.infrastructure.api.dtos.DebtDto
 import org.crolopez.sharedexpense.expense.infrastructure.api.dtos.ExpenseDto
 import org.crolopez.sharedexpense.group.application.services.GroupService
 import org.crolopez.sharedexpense.group.domain.entities.GroupEntity
@@ -39,6 +41,9 @@ class GroupController {
 
     @Inject
     lateinit var balanceApiOutputMapper: Mapper<BalanceEntity, DataDto<BalanceDto>>
+
+    @Inject
+    lateinit var debtApiOutputMapper: Mapper<DebtEntity, DataDto<DebtDto>>
 
     @Inject
     lateinit var expenseApiInputMapper: Mapper<ExpenseDto, ExpenseEntity>
@@ -101,9 +106,18 @@ class GroupController {
     @Produces(MediaType.APPLICATION_JSON)
     fun getGroupBalance(groupId: Long, authentication: Authentication): ResponseDto<BalanceDto> {
         // TODO: ADD VALIDATION FOR USER GROUP ~~~~
-        val balance = groupService.getGroupBalance(groupId)
+        val balance = groupService.getBalanceFromGroup(groupId)
         return ResponseDto(
             data = balance.map { x -> balanceApiOutputMapper.convert(x) })
+    }
+
+    @Get("/{groupId}/debt")
+    @Produces(MediaType.APPLICATION_JSON)
+    fun getGroupDebts(groupId: Long, authentication: Authentication): ResponseDto<DebtDto> {
+        // TODO: ADD VALIDATION FOR USER GROUP ~~~~
+        val debts = groupService.getDebtsFromGroup(groupId)
+        return ResponseDto(
+            data = debts.map { x -> debtApiOutputMapper.convert(x) })
     }
 
 }
