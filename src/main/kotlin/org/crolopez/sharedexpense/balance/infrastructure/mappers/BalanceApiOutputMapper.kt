@@ -16,7 +16,8 @@ class BalanceApiOutputMapper: Mapper<BalanceEntity, DataDto<BalanceDto>> {
             id = entity.username,
             attributes = BalanceDto(
                 amount = entity.amount,
-                name = entity.name
+                name = entity.name,
+                currency = entity.currency
             )
         )
     }

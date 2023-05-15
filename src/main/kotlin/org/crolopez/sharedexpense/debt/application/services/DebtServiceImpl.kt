@@ -3,8 +3,6 @@ package org.crolopez.sharedexpense.debt.application.services
 import jakarta.inject.Singleton
 import org.crolopez.sharedexpense.balance.domain.entities.BalanceEntity
 import org.crolopez.sharedexpense.debt.domain.entities.DebtEntity
-import org.crolopez.sharedexpense.expense.domain.entities.ExpenseEntity
-import org.crolopez.sharedexpense.user.domain.entities.UserEntity
 import java.lang.Math.abs
 
 @Singleton
@@ -24,7 +22,8 @@ class DebtServiceImpl: DebtService {
             debts.add(DebtEntity(
                 fromUser = fromUser,
                 toUser = toUser,
-                amount = amount))
+                amount = amount,
+                currency = "EUR"))
 
             usersWhoReceive[i].amount -= amount
             usersWhoPay[j].amount += amount

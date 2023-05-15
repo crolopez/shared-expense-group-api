@@ -20,7 +20,8 @@ class DebtApiOutputMapper: Mapper<DebtEntity, DataDto<DebtDto>> {
             attributes = DebtDto(
                 amount = entity.amount,
                 fromUser = entity.fromUser,
-                toUser = entity.toUser
+                toUser = entity.toUser,
+                currency = entity.currency
             )
         )
     }

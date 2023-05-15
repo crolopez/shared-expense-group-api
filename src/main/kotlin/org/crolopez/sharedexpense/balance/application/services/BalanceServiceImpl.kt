@@ -15,7 +15,8 @@ class BalanceServiceImpl: BalanceService {
             BalanceEntity(
                 name = user.name,
                 username = user.userName,
-                amount = contributions - total / users.size
+                amount = contributions - total / users.size,
+                currency = "EUR"
             )
         }
     }
