@@ -4,8 +4,6 @@ import jakarta.inject.Singleton
 import org.crolopez.sharedexpense.expense.domain.entities.ExpenseEntity
 import org.crolopez.sharedexpense.group.infrastructure.repositories.entities.ExpenseDbEntity
 import org.crolopez.sharedexpense.shared.infrastructure.mappers.Mapper
-import org.crolopez.sharedexpense.user.infrastructure.repositories.entities.UserDbEntity
-import org.crolopez.sharedexpense.user.domain.entities.UserEntity
 import java.time.Instant
 
 @Singleton

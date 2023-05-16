@@ -5,10 +5,6 @@ import org.crolopez.sharedexpense.expense.domain.entities.ExpenseEntity
 import org.crolopez.sharedexpense.expense.infrastructure.api.dtos.ExpenseDto
 import org.crolopez.sharedexpense.shared.infrastructure.api.dtos.DataDto
 import org.crolopez.sharedexpense.shared.infrastructure.mappers.Mapper
-import org.crolopez.sharedexpense.user.domain.entities.UserEntity
-import org.crolopez.sharedexpense.user.infrastructure.api.dtos.UserDto
-import java.util.*
-import javax.validation.constraints.NotNull
 
 @Singleton
 class ExpenseApiOutputMapper: Mapper<ExpenseEntity, DataDto<ExpenseDto>> {
